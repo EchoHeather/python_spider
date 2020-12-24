@@ -16,11 +16,9 @@ def spy_clean_process():
 
 def get_cards(base_url,pages):
     for page in range(1,pages+1):
-        if page > 1 and page <3:
+        if page > 1:
             u = base_url + "s-p" + str(page) + ".html"
             driver.get(u)
-        elif page == 3:
-            break
 
         scroll_to_bottom(driver)  # 懒加载
         card_div = driver.find_elements_by_xpath('//*[@id="app"]/div[3]/div[1]/div[1]/div[3]/div/div')
