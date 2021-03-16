@@ -158,7 +158,7 @@ urls = [
 CREATE TABLE `ips_tuchong` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `k1` varchar(50) NOT NULL DEFAULT '0' COMMENT '一级分类',
-  `k2` varchar(50) NOT NULL DEFAULT '0' COMMENT '一级分类',
+  `k2` varchar(50) NOT NULL DEFAULT '0' COMMENT '二级分类',
   `count` int(11) NOT NULL DEFAULT '0' COMMENT '总量',
   `diff` int(11) NOT NULL DEFAULT '0' COMMENT '相对上周差集',
   `time` date NOT NULL COMMENT '时间',
