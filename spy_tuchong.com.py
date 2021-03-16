@@ -104,7 +104,7 @@ def save_data(base_url, k1, k2, result = None):
     soup = bs4.BeautifulSoup(url_get.text, 'html5lib')
     count = json.loads(soup.text)['data']['totalCount']
     time = datetime.date.today()
-    sql = 'select count from ips_tuchong where k1 = \'' + k1 + '\' and k2 = \'' + k2 + '\' order by id desc limit 1'
+    sql = 'select count from ips_spider_py where type = 1 and k1 = \'' + k1 + '\' and k2 = \'' + k2 + '\' order by id desc limit 1'
     try:
         cursor.execute(sql)
         result = cursor.fetchone()
@@ -116,7 +116,7 @@ def save_data(base_url, k1, k2, result = None):
         try:
             print(k1, k2, count, diff, time)
             sql = (
-                    "INSERT INTO ips_tuchong (k1, k2, count, diff, time) "
+                    "INSERT INTO ips_spider_py (k1, k2, count, diff, time) "
                     "VALUES ('%s','%s','%s','%s','%s') "
                     % (k1, k2, count, diff, time)
             )
@@ -155,10 +155,11 @@ urls = [
 
 '''
 表结构
-CREATE TABLE `ips_tuchong` (
+CREATE TABLE `ips_spider_py` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1图虫2稿定3创客贴',
   `k1` varchar(50) NOT NULL DEFAULT '0' COMMENT '一级分类',
-  `k2` varchar(50) NOT NULL DEFAULT '0' COMMENT '一级分类',
+  `k2` varchar(50) NOT NULL DEFAULT '0' COMMENT '二级分类',
   `count` int(11) NOT NULL DEFAULT '0' COMMENT '总量',
   `diff` int(11) NOT NULL DEFAULT '0' COMMENT '相对上周差集',
   `time` date NOT NULL COMMENT '时间',
@@ -166,6 +167,7 @@ CREATE TABLE `ips_tuchong` (
   KEY `kid` (`k1`,`k2`),
   KEY `date` (`time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 '''
 
