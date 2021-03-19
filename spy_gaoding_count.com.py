@@ -232,65 +232,6 @@ def run_threaded(obj_func):
 
 driver = None
 
-
-def get_cardds():
-    base_url = "https://www.gaoding.com/graphql"
-
-    driver.get('https://www.gaoding.com/templates/f1612596')
-    sleep(3)
-
-    # 分类
-    try:
-        num = 0
-        class_arr = driver.find_elements_by_xpath(
-            '//*[@id="app"]/div/div[2]/div[1]/div/div[2]/div[2]/div[1]/a')  # 分类顶部
-        type = cats[num]
-        if len(class_arr) > 0:
-            for cls in class_arr:
-                cls_text = cls.text
-                k1 = type + '/' + cls_text
-                if cls_text in ['全部']:
-                    continue
-                else:
-                    cls.click()
-                    sleep(3)
-                    clk()
-
-                    # 分类下子类插入
-                    try:
-                        # 1. 分类下有推荐
-                        class_list = []
-                        lists = driver.find_elements_by_xpath(
-                            '//*[@id="app"]/div/div[2]/div[1]/div/div[2]/div[2]/div[2]/div')  # 分类下推荐
-                        if len(lists) > 0:
-                            for ls in lists:
-                                ls_a = ls.find_elements_by_xpath('a')
-                                for index_a, a in enumerate(ls_a):
-                                    if index_a > 0:
-                                        class_list.append(a)
-
-                            # 点击子类开始查询数量
-                            for ct in class_list:
-                                sleep(3)
-                                ct.click()
-                                k2 = ct.text
-                                save_data(base_url, k1, k2)
-                                print('类型: ' + k1 + ' 分类：' + k2)
-                        else:
-                            # 2. 有div且分类无推荐
-                            print('类型: ' + k1 + ' 分类：无')
-                            save_data(base_url, k1)
-                    except:
-                        # 2. 分类无推荐
-                        print('类型: ' + k1 + ' 分类无')
-                        save_data(base_url, k1)
-        else:
-            save_data(base_url, type)
-        num += 1
-    except:
-        print('分类为空')
-
-
 if __name__ == '__main__':
     # 打开数据库
     db = spy_open_database()
@@ -301,9 +242,6 @@ if __name__ == '__main__':
     chrome_options.add_argument('window-size=1200x600')
     chrome_options.add_argument('log-level=3')
     driver = webdriver.Chrome(chrome_options=chrome_options)
-
-    get_cards()
-    exit()
 
     # 爬取
     print(datetime.datetime.now())
