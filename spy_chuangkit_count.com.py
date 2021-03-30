@@ -14,7 +14,7 @@ import json
 import bs4
 import requests
 import json
-
+import threading
 
 def spy_open_database():
     return pymysql.connect(host='127.0.0.1', port=3306, user='root', passwd='root', db='spider', charset='utf8')
